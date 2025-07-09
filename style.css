@@ -118,8 +118,7 @@ button.big-button:active::before {
 }
 
 .container {
-    width: 390px;
-    background-color: red;
+    width: 400px;
 
 }
 
