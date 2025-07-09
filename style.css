@@ -12,8 +12,8 @@ body {
     flex-wrap: wrap;
     height: 90vh;
     justify-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* style button */
@@ -102,7 +102,7 @@ button.big-button:active::before {
 
 .container {
     width: 390px;
-    background-color: red;
+    
 }
 
 /*style form*/
