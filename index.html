@@ -1,14 +1,24 @@
-{% extends "base.html" %}
 
-{% block content %}
-<div class="container">
-    <h1>Welcome to the Home Page</h1>
-    <div class="button-container">
-        <button class="big-button" onclick="move_to_screen('5')">Ogolne info</button>
-        <button class="big-button" onclick="move_to_screen('1')">SALAMANDER</button>
-        <button class="big-button" onclick="move_to_screen('2')">85</button>
-        <button class="big-button" onclick="move_to_screen('3')">DECCO</button>
-        <button class="big-button" onclick="move_to_screen('4')">Gelian</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Home Page</h1>
+        <div class="button-container">
+            <button class="big-button" onclick="move_to_screen('5')">Ogolne info</button>
+            <button class="big-button" onclick="move_to_screen('1')">SALAMANDER</button>
+            <button class="big-button" onclick="move_to_screen('2')">85</button>
+            <button class="big-button" onclick="move_to_screen('3')">DECCO</button>
+            <button class="big-button" onclick="move_to_screen('4')">Gelian</button>
+        </div>
     </div>
-</div>
-{% endblock %}
+    
+</body>
+<!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+</html>
