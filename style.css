@@ -99,7 +99,8 @@ button.big-button:active::before {
 }
 
 .container {
-    width: 390px;
+    width: 380px;
+     background-color: red;
 }
 
 /*style form*/
