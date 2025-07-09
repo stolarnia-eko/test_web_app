@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="content">
+        <header>
+            <nav>
+                <h1>EKO HTS</h1>
+                <i>
+                    <img class="my-icon" src="{{url_for('static', filename='assets/free-icon-plus-4604818.png')}}" alt="">
+                </i>
+            </nav>
+        </header>
         <h1>Welcome to the Home Page</h1>
         <div class="button-container">
             <button class="big-button" onclick="move_to_screen('5')">Ogolne info</button>
@@ -18,7 +26,6 @@
             <button class="big-button" onclick="move_to_screen('4')">Gelian</button>
         </div>
     </div>
-    
 </body>
 <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
 </html>
