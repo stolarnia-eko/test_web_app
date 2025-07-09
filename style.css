@@ -8,7 +8,7 @@ body {
 
 /* div from buttons */
 .button-container {
-    width: 380px;
+    width: 300px;
     display: flex;
     flex-wrap: wrap;
     height: 90vh;
@@ -47,7 +47,7 @@ button.big-button {
     font-family: inherit;
     width: 100%;
     padding-bottom: 30px;
-    height: 80px;
+    height: 70px;
 }
 
 button.big-button {
