@@ -28,7 +28,7 @@ form {
   --shadeNormal: 0.5;
   --borderRadius: 0.125rem;
   --highlight: #306090;
-  background: rgb(226, 250, 120);
+  background: rgb(150, 143, 149);
   border: 1px solid var(--border);
   border-radius: var(--borderRadius);
   box-shadow: 0 1rem 1rem -0.75rem var(--border);
