@@ -19,7 +19,10 @@ const db = getFirestore();
 
 
 const btn_exit = document.getElementById('btn-exit');
+const myButton = document.getElementById('myButton');
 let title_home = document.getElementById('title');
+const select = document.getElementById('select');
+const container = document.getElementById('container');
 
 window.addEventListener('load', () => {
     const user_uid = localStorage.getItem('loggedInUserId');
@@ -42,4 +45,9 @@ window.addEventListener('load', () => {
 btn_exit.addEventListener('click', (e) => {
     localStorage.clear();
     window.location.href = '../index.html';
+});
+
+myButton.addEventListener('click', () => {
+    // alert(select.value);
+    container.style.display = 'none';
 });
