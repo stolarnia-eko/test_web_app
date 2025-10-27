@@ -3,7 +3,15 @@ body {
   background-color: #000;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 100svh;
+}
+.wrapper {
+  align-items: center;
+  display: flex;
+  height: 100svh;
+  justify-content: center;
+  width: 100svw;
+
 }
 
 .form {
@@ -12,7 +20,7 @@ body {
   box-sizing: border-box;
   height: 500px;
   padding: 20px;
-  width: 380px;
+  width: 93svw;
 }
 
 .title {
