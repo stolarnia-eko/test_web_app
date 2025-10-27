@@ -5,7 +5,7 @@ html, body {
   display: flex;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 20px;
-  height: 100vh;
+  height: 100svh;
   justify-content: center;
   margin: 0;
   padding: 0;
@@ -37,7 +37,7 @@ form {
   padding: 1rem;
   position: relative;
   overflow: hidden;
-  width: 380px;
+  width: 80svw;
 }
 
 form .email, form .email a {
