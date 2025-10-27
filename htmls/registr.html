@@ -9,29 +9,31 @@
 </head>
 
 <body>
-    <form id="form-registr" class="form-registr">
-        <div class="form">
-            <div class="title">Welcome</div>
-            <div class="subtitle">Let's create your account!</div>
-            <div class="block-info">
-                <p>Info!</p>
+    <div class="wrapper">
+        <form id="form-registr" class="form-registr">
+            <div class="form">
+                <div class="title">Welcome</div>
+                <div class="subtitle">Let's create your account!</div>
+                <div class="block-info">
+                    <p>Info!</p>
+                </div>
+                <div class="input-container ic2">
+                    <input id="email" class="input" type="text" placeholder=" " required />
+                    <div class="cut cut-short"></div>
+                    <label for="email" class="placeholder">Email</>
+                </div>
+                <div class="input-container ic1">
+                    <input id="password" class="input" type="password" placeholder=" " required />
+                    <div class="cut"></div>
+                    <label for="firstname" class="placeholder">Password</label>
+                </div>
+                <button id="btn-registr" type="text" class="submit">Registration</button>
+                <div style="padding-top: 20px;">
+                    <p>Already have an account?<a href="logo.html">Login</a></p>
+                </div>
             </div>
-            <div class="input-container ic2">
-                <input id="email" class="input" type="text" placeholder=" " required />
-                <div class="cut cut-short"></div>
-                <label for="email" class="placeholder">Email</>
-            </div>
-            <div class="input-container ic1">
-                <input id="password" class="input" type="password" placeholder=" " required />
-                <div class="cut"></div>
-                <label for="firstname" class="placeholder">Password</label>
-            </div>
-            <button id="btn-registr" type="text" class="submit">Registration</button>
-            <div style="padding-top: 20px;">
-                <p>Already have an account?<a href="logo.html">Login</a></p>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </body>
 <script type="module" src="../scripts/firebaseauth.js"></script>
 
