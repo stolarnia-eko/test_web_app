@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../style/home.css">
 </head>
+
 <body>
     <h1>Home</h1>
     <button id="btn-exit">Wyloguj</button>
     <h3 id="title"></h3>
+    <div class="container">
+        <h1>Moje przepisy:</h1>
+        <select id="fruits" name="fruit">
+            <option value="apple">Pierwsze dania</option>
+            <option value="banana">Drugie dania</option>
+            <option value="orange">Ryby</option>
+            <option value="grape">Przystawki</option>
+            <option value="mango">Salatki</option>
+            <option value="kiwi">Ciasta</option>
+            <option value="">Desery</option>
+            <option value="">Drozrzdiowe</option>
+            <option value="">Inne</option>
+        </select>
+        <div id="recipe-list">
+            <button>Zobacz</button>
+        </div>
+    </div>
+
+    <!-- <label for="fruits">Moje przepisy:</label> -->
+
+
 </body>
 <script type="module" src="../scripts/home.js"></script>
+
 </html>
