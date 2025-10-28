@@ -17,12 +17,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
+let list_categories = {
+    "category1": "Pierwsze dania",
+    "category2": "Drugie dania",
+    "category3": "Ryby",
+    "category4": "Przystawki",
+    "category5": "Salatki",
+    "category6": "Ciasta",
+    "category7": "Desery",
+    "category8": "Drozrzdiowe",
+    "category9": "Inne"
+
+};
+
 
 const btn_exit = document.getElementById('btn-exit');
 const myButton = document.getElementById('myButton');
 let title_home = document.getElementById('title');
 const select = document.getElementById('select');
 const container = document.getElementById('container');
+let name_category = document.getElementById('name-category');
+let btn_add_recipe = document.getElementById('btn-add-recipe');
+let click_save_recipe = document.getElementById('click-save-recipe');
+const container_data = document.querySelector('.container-data');
+const save_recipe = document.querySelector('.save-recipe');
+
+
 
 window.addEventListener('load', () => {
     const user_uid = localStorage.getItem('loggedInUserId');
@@ -48,6 +68,17 @@ btn_exit.addEventListener('click', (e) => {
 });
 
 myButton.addEventListener('click', () => {
-    // alert(select.value);
+    let key = select.value;
     container.style.display = 'none';
+    name_category.innerHTML = list_categories[key];
+    container_data.style.display = 'block';
+});
+btn_add_recipe.addEventListener('click', () => {
+    container_data.style.display = 'none';
+    save_recipe.style.display = 'block';
+    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;    
+});
+
+click_save_recipe.addEventListener('click', () => {
+    
 });
