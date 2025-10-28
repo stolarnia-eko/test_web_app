@@ -12,21 +12,37 @@
     <h1>Home</h1>
     <button id="btn-exit">Wyloguj</button>
     <h3 id="title"></h3>
-    <div class="container" id="container">
-        <h1>Moje przepisy:</h1>
-        <select id="select" name="fruit">
-            <option value="category1">Pierwsze dania</option>
-            <option value="category2">Drugie dania</option>
-            <option value="category3">Ryby</option>
-            <option value="category4">Przystawki</option>
-            <option value="category5">Salatki</option>
-            <option value="category6">Ciasta</option>
-            <option value="category7">Desery</option>
-            <option value="category8">Drozrzdiowe</option>
-            <option value="category9">Inne</option>
-        </select>
-        <div id="recipe-list" style="padding-top: 20px;">
-            <button id="myButton" class="myButton">Zobacz</button>
+    <div class="wrapper">
+        <div class="container" id="container">
+            <h1>Moje przepisy:</h1>
+            <select id="select" name="fruit">
+                <option value="category1">Pierwsze dania</option>
+                <option value="category2">Drugie dania</option>
+                <option value="category3">Ryby</option>
+                <option value="category4">Przystawki</option>
+                <option value="category5">Salatki</option>
+                <option value="category6">Ciasta</option>
+                <option value="category7">Desery</option>
+                <option value="category8">Drozrzdiowe</option>
+                <option value="category9">Inne</option>
+            </select>
+            <div id="recipe-list" style="padding-top: 20px;">
+                <button id="myButton" class="myButton">Zobacz</button>
+            </div>
+        </div>
+        <div class="container-data">
+            <div style="text-align: center;">
+                <h2 id="name-category"></h2>
+            </div>
+            <div class="add-recipe">
+                <button id="btn-add-recipe" class="myButton">Dodaj przepis</button>
+            </div>
+        </div>
+        <div class="save-recipe">
+            <h2 id="name-category1"></h2>
+            <input type="text" placeholder="Zapisz nazwe dania">
+            <textarea name="my_textarea" placeholder="Wpisz tutaj tresc przepisu..."></textarea>
+            <button id="click-save-recipe" class="myButton">Zapisz</button>
         </div>
     </div>
 
