@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+import { getFirestore, setDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 
 const firebaseConfig = {
@@ -42,7 +42,8 @@ let click_save_recipe = document.getElementById('click-save-recipe');
 const container_data = document.querySelector('.container-data');
 const save_recipe = document.querySelector('.save-recipe');
 
-
+let title_recipe = document.getElementById('title-recipe');
+let value_recipe = document.getElementById('value-recipe');
 
 window.addEventListener('load', () => {
     const user_uid = localStorage.getItem('loggedInUserId');
@@ -76,9 +77,30 @@ myButton.addEventListener('click', () => {
 btn_add_recipe.addEventListener('click', () => {
     container_data.style.display = 'none';
     save_recipe.style.display = 'block';
-    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;    
+    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;
 });
 
 click_save_recipe.addEventListener('click', () => {
+    if (title_recipe.value && value_recipe.value) {
+        const user_uid = localStorage.getItem('loggedInUserId');
+        let cat = select.value;
+        const docRef = doc(db, "recipe", user_uid);
+        const myData = {
+            [cat]:
+            {
+                title:title_recipe.value,
+                value: value_recipe.value
+            }
+        };
+        console.log(myData);
     
+        setDoc(docRef, myData)
+            .then(() => {
+                alert('Przepis został dodany pomyślnie');
+            })
+            .catch((error) => {
+                console.error("error writing document firestore", error);
+
+            });
+    }
 });
