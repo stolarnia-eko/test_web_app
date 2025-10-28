@@ -1,6 +1,13 @@
 
+body {
+	/* padding: 20px; */
+}
+.wrapper{
+	
+}
 .container{
     display: flex;
+	/* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -44,4 +51,40 @@ select{
 .myButton:active {
 	position:relative;
 	top:1px;
+}
+.container-data {
+	display: none;
+	background-color: rgb(148, 148, 232);
+	padding-bottom: 20px;
+	text-align: center;
+}
+/* --------- */
+.save-recipe{
+	display: none;
+	text-align: center;
+	background-color: #ffec64;
+	padding: 20px 0 20px 0;
+}
+input[type="text"] {
+	font-size: 20px;
+	padding: 5px 10px;
+	border-radius: 8px;
+	border: 2px solid #555;
+	background-color: #f0f0f0;
+	box-shadow: 6px 6px 5px rgba(37, 118, 210, 0.3);
+	width: 90%;
+	margin-top: 10px;
+}
+textarea {
+	font-size: 20px;
+	padding: 5px 10px;
+	border-radius: 8px;
+	border: 2px solid #555;
+	background-color: #f0f0f0;
+	box-shadow: 6px 6px 5px rgba(37, 118, 210, 0.3);
+	width: 90%;
+	margin-top: 10px;
+	height: 300px;
+	resize: vertical;
+	margin-bottom: 20px;
 }
