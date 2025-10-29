@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, setDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
-
+import { getFirestore, setDoc, updateDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+import { getDatabase, ref, set, child, push, get, onChildAdded, onChildChanged, onChildRemoved } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js'
 
 const firebaseConfig = {
     apiKey: "AIzaSyBHVMcudI8tBbj1ChnvyzT1WAfj5cWZ6wk",
@@ -16,6 +16,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
+const base = getDatabase(app)
 
 let list_categories = {
     "category1": "Pierwsze dania",
@@ -81,26 +82,59 @@ btn_add_recipe.addEventListener('click', () => {
 });
 
 click_save_recipe.addEventListener('click', () => {
-    if (title_recipe.value && value_recipe.value) {
-        const user_uid = localStorage.getItem('loggedInUserId');
-        let cat = select.value;
-        const docRef = doc(db, "recipe", user_uid);
-        const myData = {
-            [cat]:
-            {
-                title:title_recipe.value,
-                value: value_recipe.value
-            }
-        };
-        console.log(myData);
-    
-        setDoc(docRef, myData)
-            .then(() => {
-                alert('Przepis został dodany pomyślnie');
-            })
-            .catch((error) => {
-                console.error("error writing document firestore", error);
+    const user_uid = localStorage.getItem('loggedInUserId');
 
-            });
+    if (title_recipe.value && value_recipe.value) {
+
+        let category = select.value;
+
+
+        let title = title_recipe.value
+        let recept = value_recipe.value
+
+        add_Data([title, recept], user_uid, category)
+        const dbRef = ref(getDatabase());
+        // get(child(dbRef, user_uid)).then((snapshot) => {
+        //     if (snapshot.exists()) {
+        //         console.log(snapshot.val());
+        //     } else {
+        //         add_Data(myData, user_uid, cat)
+        //     }
+        // }).catch((error) => {
+        //     console.error(error);
+        // });
+
+
+        // setDoc(docRef, myData)
+        //     .then(() => {
+        //         alert('Przepis został dodany pomyślnie');
+        //     })
+        //     .catch((error) => {
+        //         console.error("error writing document firestore", error);
+
+        //     });
     }
 });
+
+function add_Data(mydata, user_uid, cat) {
+
+    // push(ref(base, `${user_uid}/${cat}`), 
+    //     {'barszcz3':'recipe'}
+    // );
+    const dbRef = ref(getDatabase());
+    
+    get(child(dbRef, `${user_uid}/${cat}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val());
+            for (let index = 0; index < snapshot.val().length; index++) {
+                const element = snapshot.val()[index];
+            
+            }
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+
+}
