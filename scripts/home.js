@@ -75,6 +75,7 @@ myButton.addEventListener('click', () => {
     container.style.display = 'none';
     name_category.innerHTML = list_categories[key];
     container_data.style.display = 'block';
+    document.getElementById('list-recipe').style.display = 'none'
     createBlockRecipe(key)
 });
 
