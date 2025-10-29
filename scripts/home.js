@@ -75,7 +75,7 @@ myButton.addEventListener('click', () => {
     container.style.display = 'none';
     name_category.innerHTML = list_categories[key];
     container_data.style.display = 'block';
-    document.getElementById('list-recipe').style.display = 'none'
+    // document.getElementById('list-recipe').style.display = 'none'
     createBlockRecipe(key)
 });
 
@@ -137,5 +137,8 @@ click_save_recipe.addEventListener('click', () => {
         set(ref(base, `${user_uid}/${category}/${title}`),
             recept
         );
+        document.getElementById('save-recipe').style.display = 'none'
+        document.getElementById('container-data').style.display = 'block'
+        document.getElementById('list-recipe').style.display = 'block'
     }
 });
