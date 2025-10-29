@@ -122,6 +122,7 @@ function create_boxRecipe(title_recipe) {
 btn_add_recipe.addEventListener('click', () => {
     container_data.style.display = 'none';
     save_recipe.style.display = 'block';
+    document.getElementById('list-recipe').style.display = 'none'
     document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;
     document.getElementById('text-recipe').style.display = 'none'
 });
