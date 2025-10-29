@@ -6,8 +6,8 @@ body {
 	
 }
 .container{
-    /* display: flex; */
-	display: none;
+    display: flex;
+	/* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -60,7 +60,7 @@ select{
 }
 /* --------- */
 .save-recipe{
-	display: block;
+	display: none;
 	text-align: center;
 	background-color: #ffec64;
 	padding: 20px 0 20px 0;
