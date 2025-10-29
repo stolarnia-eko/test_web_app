@@ -21,12 +21,11 @@ window.onload = function () {
     if (user_uid) {
         const db = getFirestore();
         const docRef = doc(db, "users", user_uid);
-        
+
         getDoc(docRef)
             .then((docSnap) => {
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
-                    console.log("Document data:", userData.email);
                     document.getElementById('email').value = userData.email;
                 }
                 else {
@@ -55,6 +54,7 @@ function showMessage(messenger) {
         messengerDiv.style.display = "none";
     }, 5000);
 }
+
 
 btn_logo.addEventListener('click', (e) => {
     e.preventDefault();
