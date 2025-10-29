@@ -17,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const base = getDatabase(app)
+const dbRef = ref(getDatabase());
 
 let list_categories = {
     "category1": "Pierwsze dania",
@@ -74,61 +75,26 @@ myButton.addEventListener('click', () => {
     container.style.display = 'none';
     name_category.innerHTML = list_categories[key];
     container_data.style.display = 'block';
-});
-btn_add_recipe.addEventListener('click', () => {
-    container_data.style.display = 'none';
-    save_recipe.style.display = 'block';
-    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;
+    createBlockRecipe(key)
 });
 
-click_save_recipe.addEventListener('click', () => {
+function createBlockRecipe(cat) {
     const user_uid = localStorage.getItem('loggedInUserId');
-
-    if (title_recipe.value && value_recipe.value) {
-
-        let category = select.value;
-
-
-        let title = title_recipe.value
-        let recept = value_recipe.value
-
-        add_Data([title, recept], user_uid, category)
-        const dbRef = ref(getDatabase());
-        // get(child(dbRef, user_uid)).then((snapshot) => {
-        //     if (snapshot.exists()) {
-        //         console.log(snapshot.val());
-        //     } else {
-        //         add_Data(myData, user_uid, cat)
-        //     }
-        // }).catch((error) => {
-        //     console.error(error);
-        // });
-
-
-        // setDoc(docRef, myData)
-        //     .then(() => {
-        //         alert('Przepis został dodany pomyślnie');
-        //     })
-        //     .catch((error) => {
-        //         console.error("error writing document firestore", error);
-
-        //     });
-    }
-});
-
-function add_Data(mydata, user_uid, cat) {
-
-    // push(ref(base, `${user_uid}/${cat}`), 
-    //     {'barszcz3':'recipe'}
-    // );
-    const dbRef = ref(getDatabase());
-    
+    // const dbRef = ref(getDatabase());
+    const container = document.getElementById('list-recipe');
     get(child(dbRef, `${user_uid}/${cat}`)).then((snapshot) => {
         if (snapshot.exists()) {
-            console.log(snapshot.val());
-            for (let index = 0; index < snapshot.val().length; index++) {
-                const element = snapshot.val()[index];
-            
+            for (const key in snapshot.val()) {
+                let item = document.createElement('p')
+                item.textContent = `${key}`
+                item.style.backgroundColor = 'red'
+                item.style.padding = '10px'
+                item.addEventListener('click', function (event) {
+                    let title_recipe = event.target.textContent;
+                    create_boxRecipe(title_recipe)
+                    container.style.display = 'none'
+                });
+                container.append(item)
             }
         } else {
             console.log("No data available");
@@ -136,5 +102,38 @@ function add_Data(mydata, user_uid, cat) {
     }).catch((error) => {
         console.error(error);
     });
-
 }
+function create_boxRecipe(title_recipe) {
+    const user_uid = localStorage.getItem('loggedInUserId');
+    let cat = select.value;
+    get(child(dbRef, `${user_uid}/${cat}/${title_recipe}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            document.getElementById('recipe').innerText = snapshot.val()
+
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+btn_add_recipe.addEventListener('click', () => {
+    container_data.style.display = 'none';
+    save_recipe.style.display = 'block';
+    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;
+    document.getElementById('text-recipe').style.display = 'none'
+});
+
+click_save_recipe.addEventListener('click', () => {
+    const user_uid = localStorage.getItem('loggedInUserId');
+
+    if (title_recipe.value && value_recipe.value) {
+        let category = select.value;
+        let title = title_recipe.value
+        let recept = value_recipe.value
+        set(ref(base, `${user_uid}/${category}/${title}`),
+            recept
+        );
+    }
+});
