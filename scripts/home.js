@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, setDoc, updateDoc, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
-import { getDatabase, ref, set, child, push, get, onChildAdded, onChildChanged, onChildRemoved } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js'
+import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+import { getDatabase, ref, set, child, get } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js'
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBHVMcudI8tBbj1ChnvyzT1WAfj5cWZ6wk",
@@ -54,7 +55,7 @@ window.addEventListener('load', () => {
         .then((docSnap) => {
             if (docSnap.exists()) {
                 const userData = docSnap.data();
-                title_home.innerHTML = `Добро пожаловать, ${userData.email}`;
+                title_home.innerHTML = `Witaj, ${userData.email}`;
             }
             else {
                 console.log("no document found matching id")
@@ -66,8 +67,20 @@ window.addEventListener('load', () => {
 });
 
 btn_exit.addEventListener('click', (e) => {
-    localStorage.clear();
-    window.location.href = '../index.html';
+    const dialog = confirm('Na pewno chcesz sie wylogowac???')
+    if (dialog) {
+        const auth = getAuth();
+        signOut(auth).then(() => {
+            console.log('Sign-out successful')
+            localStorage.clear()
+            window.location.href = '../index.html';
+        }).catch((error) => {
+            console.log('An error happened')
+            // An error happened.
+        });
+    }
+
+
 });
 
 myButton.addEventListener('click', () => {
@@ -75,26 +88,28 @@ myButton.addEventListener('click', () => {
     container.style.display = 'none';
     name_category.innerHTML = list_categories[key];
     container_data.style.display = 'block';
-    // document.getElementById('list-recipe').style.display = 'none'
     createBlockRecipe(key)
 });
 
 function createBlockRecipe(cat) {
     const user_uid = localStorage.getItem('loggedInUserId');
-    // const dbRef = ref(getDatabase());
     const container = document.getElementById('list-recipe');
     get(child(dbRef, `${user_uid}/${cat}`)).then((snapshot) => {
         if (snapshot.exists()) {
             for (const key in snapshot.val()) {
                 let item = document.createElement('p')
                 item.textContent = `${key}`
-                item.style.backgroundColor = 'red'
-                item.style.padding = '10px'
+                item.style.backgroundColor = 'lightblue'
+                item.style.padding = '15px'
+                item.style.borderRadius = '15px';
+                item.style.boxShadow = '10px 10px 15px blue';
                 item.addEventListener('click', function (event) {
                     let title_recipe = event.target.textContent;
                     create_boxRecipe(title_recipe)
                     container.style.display = 'none'
                 });
+                container.style.backgroundColor = 'black'
+                container.style.padding = '20px 10px 20px 10px'
                 container.append(item)
             }
         } else {
