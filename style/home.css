@@ -72,7 +72,8 @@ select{
 .save-recipe{
 	display: none;
 	text-align: center;
-	background-color: #ffec64;
+	background: #833AB4;
+	background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(222, 158, 210, 1) 30%, rgba(96, 237, 103, 1) 51%, rgba(253, 29, 104, 1) 74%, rgba(252, 176, 69, 1) 100%);
 	padding: 20px 0 20px 0;
 }
 input[type="text"] {
@@ -97,4 +98,11 @@ textarea {
 	height: 300px;
 	resize: vertical;
 	margin-bottom: 20px;
+}
+.text-recipe{
+	background-color: #555;
+	color:white;
+	padding: 10px;
+	font-family:'Arial, sans-serif';
+	font-size: 20px;
 }
