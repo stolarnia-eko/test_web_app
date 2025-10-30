@@ -23,7 +23,6 @@ h1{
     background: #833AB4;
 	background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(175, 47, 152, 1) 53%, rgba(253, 29, 104, 1) 74%, rgba(252, 176, 69, 1) 100%);
     padding: 15px;
-    border-radius: 15px;
     box-shadow: 10px 10px 15px rgba(72, 51, 208, 0.8);
 }
 select{
