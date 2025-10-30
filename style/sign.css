@@ -1,0 +1,29 @@
+body{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.wrapper{
+    width: 320px;
+    height: 188px;
+    margin: auto;
+    
+}
+h1{
+    font-size: 24px;
+    padding-bottom: 20px;
+}
+.two{
+    border:2px solid #817f7d;
+    width: 280px;
+    margin: auto;
+    padding-bottom: 10px;
+}
+button{
+    padding: 10px 20px;
+    color: red;
+}
+button:hover{
+    background-color: red;
+    color:white;
+}
