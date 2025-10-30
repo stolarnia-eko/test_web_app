@@ -124,8 +124,10 @@ function create_boxRecipe(title_recipe) {
     let cat = select.value;
     get(child(dbRef, `${user_uid}/${cat}/${title_recipe}`)).then((snapshot) => {
         if (snapshot.exists()) {
-            document.getElementById('recipe').innerText = snapshot.val()
-
+            const text_recipe = document.getElementById('text-recipe')
+            const recept = document.getElementById('recipe')
+            recept.innerHTML = snapshot.val()
+            text_recipe.append(recept)
         } else {
             console.log("No data available");
         }
@@ -144,7 +146,6 @@ btn_add_recipe.addEventListener('click', () => {
 
 click_save_recipe.addEventListener('click', () => {
     const user_uid = localStorage.getItem('loggedInUserId');
-
     if (title_recipe.value && value_recipe.value) {
         let category = select.value;
         let title = title_recipe.value
@@ -155,5 +156,6 @@ click_save_recipe.addEventListener('click', () => {
         document.getElementById('save-recipe').style.display = 'none'
         document.getElementById('container-data').style.display = 'block'
         document.getElementById('list-recipe').style.display = 'block'
+        
     }
 });
