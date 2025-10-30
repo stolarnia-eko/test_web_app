@@ -49,6 +49,7 @@ let title_recipe = document.getElementById('title-recipe');
 let value_recipe = document.getElementById('value-recipe');
 
 window.addEventListener('load', () => {
+    document.getElementById('text-recipe').style.display = 'none'
     const user_uid = localStorage.getItem('loggedInUserId');
     const docRef = doc(db, "users", user_uid);
     getDoc(docRef)
@@ -125,6 +126,7 @@ function create_boxRecipe(title_recipe) {
     get(child(dbRef, `${user_uid}/${cat}/${title_recipe}`)).then((snapshot) => {
         if (snapshot.exists()) {
             const text_recipe = document.getElementById('text-recipe')
+            text_recipe.style.display = 'block'
             const recept = document.getElementById('recipe')
             recept.innerHTML = snapshot.val()
             text_recipe.append(recept)
