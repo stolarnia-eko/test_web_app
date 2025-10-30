@@ -67,20 +67,7 @@ window.addEventListener('load', () => {
         });
 });
 
-// btn_exit.addEventListener('click', (e) => {
-//     const dialog = confirm('Na pewno chcesz sie wylogowac???')
-//     if (dialog) {
-//         const auth = getAuth();
-//         signOut(auth).then(() => {
-//             console.log('Sign-out successful')
-//             localStorage.clear()
-//             window.location.href = '../index.html';
-//         }).catch((error) => {
-//             console.log('An error happened')
-//             // An error happened.
-//         });
-//     }
-// });
+
 
 myButton.addEventListener('click', () => {
     let key = select.value;
