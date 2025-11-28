@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getFirestore, updateDoc, query, where, arrayUnion, addDoc, setDoc, getDocs, getDoc, doc, collection } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"
-import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { getFirestore, updateDoc, query, where, getDocs, deleteDoc, doc, collection } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC7MI_jaZfCZwGn8nzGEgDw60wjkA-Ivng",
@@ -193,7 +193,7 @@ async function update_text_recipe() {
     document.getElementById('block-text-recipe').innerText = newText;
     const recipesCollectionRef = collection(db, "users", userId, "recipes");
     const q = query(recipesCollectionRef, where("title", "==", name_recipe_global));
-    
+
     const querySnapshot = await getDocs(q);
     const recipeIds = [];
     querySnapshot.forEach((doc) => {
@@ -230,7 +230,33 @@ let name_recipe_global = ''
 function click_img_delete(name_recipe) {
     document.getElementById('dialog').style.display = 'flex';
     document.getElementById('recipe').innerText = name_recipe;
-    name_recipe_global = name_recipe
+    name_recipe_global = name_recipe;
+}
+
+async function delete_recipe() {
+    const recipesCollectionRef = collection(db, "users", userId, "recipes");
+    const q = query(recipesCollectionRef, where("title", "==", name_recipe_global));
+
+    const querySnapshot = await getDocs(q);
+    const recipeIds = [];
+    querySnapshot.forEach((doc) => {
+        recipeIds.push(doc.id);
+    });
+    const recipeId = recipeIds[0]
+    const recipeDocRef = doc(db, "users", userId, "recipes", recipeId);
+    try {
+        // 2. Вызываем функцию deleteDoc()
+        await deleteDoc(recipeDocRef);
+
+        console.log("Рецепт успешно удален:", recipeId);
+        // Вы можете обновить UI здесь, например, удалить элемент списка
+
+    } catch (error) {
+        console.error("Ошибка при удалении рецепта:", error);
+        // Обработайте ошибку, например, покажите уведомление пользователю
+        throw error;
+    }
+
 }
 
 document.getElementById('btn-close').addEventListener('click', (e) => {
@@ -239,7 +265,7 @@ document.getElementById('btn-close').addEventListener('click', (e) => {
 });
 document.getElementById('btn-yes').addEventListener('click', (e) => {
     document.getElementById('dialog').style.display = 'none';
-    //console.log(name_recipe_global)
+    delete_recipe()
     // тут видаляэмо рецепт
 })
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,8 +273,7 @@ document.getElementById('btn-yes').addEventListener('click', (e) => {
 document.getElementById('add-recipe').addEventListener('click', (e) => {
     select.value = 'Pierwsze dania'
     window.location.href = 'add_recipe.html'
-
-
+})
 
 
 
