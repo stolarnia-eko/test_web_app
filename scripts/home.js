@@ -1,148 +1,256 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
-import { getDatabase, ref, set, child, get } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js'
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, updateDoc, query, where, arrayUnion, addDoc, setDoc, getDocs, getDoc, doc, collection } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"
+import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBHVMcudI8tBbj1ChnvyzT1WAfj5cWZ6wk",
-    authDomain: "js-project-55157.firebaseapp.com",
-    projectId: "js-project-55157",
-    storageBucket: "js-project-55157.firebasestorage.app",
-    messagingSenderId: "1053405817543",
-    appId: "1:1053405817543:web:308c3e5d09f6ef944eace2",
-    databaseURL: "https://js-project-55157-default-rtdb.firebaseio.com/",
-    firestoreURL: "https://firestore.googleapis.com/v1/projects/js-project-55157/databases/(default)/documents"
+    apiKey: "AIzaSyC7MI_jaZfCZwGn8nzGEgDw60wjkA-Ivng",
+    authDomain: "test-script-27e3c.firebaseapp.com",
+    projectId: "test-script-27e3c",
+    storageBucket: "test-script-27e3c.firebasestorage.app",
+    messagingSenderId: "606340762693",
+    appId: "1:606340762693:web:0a858eb6e6adb7dec8e72c",
+    //databaseURL: "https://js-project-55157-default-rtdb.firebaseio.com/",
+    //firestoreURL: "https://firestore.googleapis.com/v1/projects/js-project-55157/databases/(default)/documents"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
-const base = getDatabase(app)
-const dbRef = ref(getDatabase());
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-let list_categories = {
-    "category1": "Pierwsze dania",
-    "category2": "Drugie dania",
-    "category3": "Ryby",
-    "category4": "Przystawki",
-    "category5": "Salatki",
-    "category6": "Ciasta",
-    "category7": "Desery",
-    "category8": "Drozrzdiowe",
-    "category9": "Inne"
-
-};
+let userId = '';
+const select = document.getElementById('select')
 
 
-const btn_exit = document.getElementById('btn-exit');
-const myButton = document.getElementById('myButton');
-let title_home = document.getElementById('title');
-const select = document.getElementById('select');
-const container = document.getElementById('container');
-let name_category = document.getElementById('name-category');
-let btn_add_recipe = document.getElementById('btn-add-recipe');
-let click_save_recipe = document.getElementById('click-save-recipe');
-const container_data = document.querySelector('.container-data');
-const save_recipe = document.querySelector('.save-recipe');
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const uid = user.uid;
+        userId = uid;
+        create_list_recipe(userId)
 
-let title_recipe = document.getElementById('title-recipe');
-let value_recipe = document.getElementById('value-recipe');
-
-window.addEventListener('load', () => {
-    document.getElementById('text-recipe').style.display = 'none'
-    const user_uid = localStorage.getItem('loggedInUserId');
-    const docRef = doc(db, "users", user_uid);
-    getDoc(docRef)
-        .then((docSnap) => {
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                title_home.innerHTML = `Witaj, ${userData.email}`;
-            }
-            else {
-                console.log("no document found matching id")
-            }
-        })
-        .catch((error) => {
-            console.log("Error getting document");
-        });
-});
-
-
-
-myButton.addEventListener('click', () => {
-    let key = select.value;
-    container.style.display = 'none';
-    name_category.innerHTML = list_categories[key];
-    container_data.style.display = 'block';
-    createBlockRecipe(key)
-});
-
-function createBlockRecipe(cat) {
-    const user_uid = localStorage.getItem('loggedInUserId');
-    const container = document.getElementById('list-recipe');
-    get(child(dbRef, `${user_uid}/${cat}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            for (const key in snapshot.val()) {
-                let item = document.createElement('p')
-                item.textContent = `${key}`
-                item.style.backgroundColor = 'lightblue'
-                item.style.padding = '15px'
-                item.style.borderRadius = '15px';
-                item.style.boxShadow = '10px 10px 15px blue';
-                item.addEventListener('click', function (event) {
-                    let title_recipe = event.target.textContent;
-                    create_boxRecipe(title_recipe)
-                    container.style.display = 'none'
-                });
-                container.style.backgroundColor = 'black'
-                container.style.padding = '20px 10px 20px 10px'
-                container.append(item)
-            }
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
-}
-function create_boxRecipe(title_recipe) {
-    const user_uid = localStorage.getItem('loggedInUserId');
-    let cat = select.value;
-    get(child(dbRef, `${user_uid}/${cat}/${title_recipe}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            const text_recipe = document.getElementById('text-recipe')
-            text_recipe.style.display = 'block'
-            const recept = document.getElementById('recipe')
-            recept.innerHTML = snapshot.val()
-            text_recipe.append(recept)
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
-}
-
-btn_add_recipe.addEventListener('click', () => {
-    container_data.style.display = 'none';
-    save_recipe.style.display = 'block';
-    document.getElementById('list-recipe').style.display = 'none'
-    document.getElementById('name-category1').innerHTML = `Dodawanie do kategorii: ${list_categories[select.value]}`;
-    document.getElementById('text-recipe').style.display = 'none'
-});
-
-click_save_recipe.addEventListener('click', () => {
-    const user_uid = localStorage.getItem('loggedInUserId');
-    if (title_recipe.value && value_recipe.value) {
-        let category = select.value;
-        let title = title_recipe.value
-        let recept = value_recipe.value
-        set(ref(base, `${user_uid}/${category}/${title}`),
-            recept
-        );
-        document.getElementById('save-recipe').style.display = 'none'
-        document.getElementById('container-data').style.display = 'block'
-        document.getElementById('list-recipe').style.display = 'block'
-        
+    } else {
     }
 });
+
+const list_recipe = []
+
+async function getData(category) {
+    const recipesArray = [];
+    const recipesCollectionRef = collection(db, "users", userId, "recipes");
+    const querySnapshot = await getDocs(recipesCollectionRef);
+
+    querySnapshot.forEach((doc) => {
+        // doc.data() возвращает поля документа как объект JS
+        const recipeData = doc.data();
+        // Добавляем данные в массив, опционально включая ID документа
+        recipesArray.push({
+            id: doc.id, // ID документа Firestore (полезно для обновлений/удалений)
+            ...recipeData // Остальные данные (title, text, category, createdAt)
+        });
+    });
+    return recipesArray;
+}
+
+
+
+
+
+const dot_vertical = document.getElementById('dot-vertical');
+dot_vertical.addEventListener('click', (e) => {
+    const block = dot_vertical.nextElementSibling;
+    block.classList.toggle("show");
+});
+const click_signOut = document.getElementById('signout');
+click_signOut.addEventListener('click', (e) => {
+    click_signOut.classList.remove('show')
+    window.location.href = 'signout.html'
+})
+
+function update_box_list_recipe(listRecipe) {
+
+    for (let index = 0; index < listRecipe.length; index++) {
+        const element = listRecipe[index];
+        const listItem = document.createElement('li');
+        const div_list = document.createElement('div');
+
+        const box_left = document.createElement('div')
+        const p_title = document.createElement('p');
+        const p_support = document.createElement('p');
+        const img = document.createElement('img');
+
+        p_support.innerText = 'support text';
+        p_support.classList.add('support-recipe')
+        p_title.innerText = element.title;
+        p_title.classList.add('name-recipe')
+
+        img.src = '../assets/icons/icons8-delete-48.png';
+        img.classList.add('img_delete')
+
+        box_left.appendChild(p_title)
+        box_left.appendChild(p_support);
+
+        div_list.appendChild(box_left);
+
+        listItem.appendChild(div_list)
+        listItem.appendChild(img)
+
+        listItem.classList.add('list_item')
+        listItem.addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                click_img_delete(p_title.innerText)
+            }
+            else {
+                click_list_item(p_title.innerText);
+
+            }
+        })
+        container.appendChild(listItem);
+    }
+}
+
+//код створення списку рецептiв
+const container = document.getElementById('list-recipe');
+
+function create_list_recipe() {
+    getData().then(recipes => {
+        update_box_list_recipe(recipes)
+    });
+}
+///////////// finisz ///////////
+
+// --- код коли вибираемо категорiю --------
+document.querySelector('select').addEventListener('change', (e) => {
+    const selectedValue = e.target.value;
+    list_recipe.length = 0;
+    container.innerHTML = ''
+    if (select.value === 'Wszystkie przepisy') {
+        create_list_recipe()
+        return;
+    }
+    update_list_recipe(selectedValue).then(recipes => {
+        update_box_list_recipe(recipes)
+    })
+
+})
+async function update_list_recipe(category) {
+    const list_recipe_category = []
+    const recipesCollectionRef = collection(db, "users", userId, "recipes");
+    const q = query(recipesCollectionRef, where("category", "==", category));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // doc.data() возвращает поля документа как объект JS
+        const recipeData = doc.data();
+
+        list_recipe_category.push({
+            id: doc.id,
+            ...recipeData
+        });
+    })
+    return list_recipe_category;
+}
+///////////// --- finisz --------
+
+////////------- коли клик на list recipe ---------
+
+async function click_list_item(name_recipe) {
+    document.getElementById('dialog-recipe').style.display = 'flex';
+    container.innerHTML = '';
+    name_recipe_global = name_recipe;
+    const recipesCollectionRef = collection(db, "users", userId, "recipes");
+    const q = query(recipesCollectionRef, where("title", "==", name_recipe));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        // doc.data() возвращает поля документа как объект JS
+        const recipeData = doc.data();
+        getTextRecipe(recipeData.text)
+    })
+}
+
+function getTextRecipe(text_recipe) {
+    document.getElementById('block-text-recipe').innerText = text_recipe;
+}
+let bool_btn_edit = true;
+document.getElementById('edit-recipe').addEventListener('click', (e) => {
+    let text_start_edit = document.getElementById('block-text-recipe').innerText;
+    if (bool_btn_edit) {
+        document.getElementById('block-text-recipe').style.display = 'none'
+        document.getElementById('text-recipe').value = text_start_edit;
+        document.getElementById('text-recipe').style.display = 'block';
+        bool_btn_edit = false;
+    }
+    else {
+        update_text_recipe()
+        bool_btn_edit = true;
+        document.getElementById('block-text-recipe').style.display = 'block'
+        document.getElementById('text-recipe').style.display = 'none';
+    }
+
+
+})
+async function update_text_recipe() {
+    let newText = document.getElementById('text-recipe').value;
+    document.getElementById('block-text-recipe').innerText = newText;
+    const recipesCollectionRef = collection(db, "users", userId, "recipes");
+    const q = query(recipesCollectionRef, where("title", "==", name_recipe_global));
+    
+    const querySnapshot = await getDocs(q);
+    const recipeIds = [];
+    querySnapshot.forEach((doc) => {
+        recipeIds.push(doc.id);
+    });
+    const recipeId = recipeIds[0]
+    const recipeDocRef = doc(db, "users", userId, "recipes", recipeId);
+
+    try {
+        // 2. Вызываем функцию updateDoc() для изменения данных
+        await updateDoc(recipeDocRef, {
+            text: newText // Объект, указывающий, какие поля обновить
+        });
+
+        console.log("Поле 'text' успешно обновлено для рецепта:", recipeId);
+
+    } catch (error) {
+        console.error("Ошибка при обновлении поля 'text':", error);
+        // Обработайте ошибку, например, покажите уведомление пользователю
+    }
+}
+
+
+
+document.getElementById('close-dialog-recipe').addEventListener('click', (e) => {
+    document.getElementById('dialog-recipe').style.display = 'none'
+    create_list_recipe(list_recipe)
+    document.getElementById('text-recipe').style.display = 'none';
+    document.getElementById('block-text-recipe').style.display = 'block';
+})
+/////////////////////////////////////////
+// код для видалення рецепту
+let name_recipe_global = ''
+function click_img_delete(name_recipe) {
+    document.getElementById('dialog').style.display = 'flex';
+    document.getElementById('recipe').innerText = name_recipe;
+    name_recipe_global = name_recipe
+}
+
+document.getElementById('btn-close').addEventListener('click', (e) => {
+    document.getElementById('dialog').style.display = 'none';
+
+});
+document.getElementById('btn-yes').addEventListener('click', (e) => {
+    document.getElementById('dialog').style.display = 'none';
+    //console.log(name_recipe_global)
+    // тут видаляэмо рецепт
+})
+///////////////////////////////////////////////////////////////////////////////
+//додавання рецепту
+document.getElementById('add-recipe').addEventListener('click', (e) => {
+    select.value = 'Pierwsze dania'
+    window.location.href = 'add_recipe.html'
+
+
+
+
+
+
+
